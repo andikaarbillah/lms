@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"fmt"
 	"lms/services"
 
 	"github.com/gin-gonic/gin"
@@ -27,7 +26,7 @@ func (uc UserController) VerifikasiRegister(ctx *gin.Context) {
 	})
 }
 
-func (uc UserController)VerifikasiLogin(ctx *gin.Context){
+func (uc UserController) VerifikasiLogin(ctx *gin.Context) {
 	data, err := uc.us.Login(ctx)
 	if err != nil {
 		ctx.JSON(500, gin.H{
@@ -35,8 +34,6 @@ func (uc UserController)VerifikasiLogin(ctx *gin.Context){
 			"result":  data,
 		})
 	}
-
-	fmt.Println("\nDisini Error varifikasi", err)
 
 	ctx.JSON(200, gin.H{
 		"message": "succesfully",
