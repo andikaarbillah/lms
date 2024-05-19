@@ -1,6 +1,7 @@
 create table users(
     id varchar(255) primary key,
-    username varchar(55) not null,
+    first_name varchar(55) not null,
+    last_name varchar(55) not null,
     email varchar(55) not null unique,
     password varchar(255) not null,
     created_at timestamp default current_timestamp,

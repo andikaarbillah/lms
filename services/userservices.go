@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"lms/hashing"
 	"lms/model"
 	"lms/primary"
@@ -23,10 +24,14 @@ type userServices struct {
 func (ur *userServices) Register(ctx *gin.Context) (*model.Users, error) {
 	var user model.Users
 
-	if err := ctx.ShouldBindJSON(&user); err != nil {
+	user.FirstName = ctx.PostForm("firstname")
+	user.LastName= ctx.PostForm("lastname")
+	user.Email= ctx.PostForm("email")
+	user.Password= ctx.PostForm("password")
+
+	if err := ctx.ShouldBind(&user); err != nil {
 		return nil, err
 	}
-
 	validate := validator.New()
 
 	err := validate.Struct(user)
@@ -35,9 +40,11 @@ func (ur *userServices) Register(ctx *gin.Context) (*model.Users, error) {
 		return nil, err
 	}
 
+	fmt.Println("disini error", err)
 	User := model.Users{
 		Id:         primary.IdRndm(8),
-		Username:   user.Username,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
 		Email:      user.Email,
 		Password:   hashing.HasingString(user.Password),
 		Created_at: time.Now(),
@@ -57,23 +64,26 @@ func (ur *userServices) Register(ctx *gin.Context) (*model.Users, error) {
 
 func (ur *userServices) Login(ctx *gin.Context) (*model.Users, error) {
 	var user model.Users
-	if err := ctx.ShouldBindJSON(&user); err != nil {
+	user.Email = ctx.PostForm("email")
+	user.Password = ctx.PostForm("password")
+
+	if err := ctx.ShouldBind(&user); err != nil {
 		return nil, err
 	}
 	validate := validator.New()
-	err := validate.Var(user.Email,"required,email")
+	err := validate.Var(user.Email, "required,email")
 	if err != nil {
 		return nil, err
 	}
 
-	err = validate.Var(user.Password,"required")
+	err = validate.Var(user.Password, "required")
 	if err != nil {
 		return nil, err
 	}
 
 	existingUser, err := ur.ur.Login(user.Email, user.Password)
 
-	if err != nil{
+	if err != nil {
 		return nil, err
 	}
 
