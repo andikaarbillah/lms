@@ -30,7 +30,21 @@ func DB() *gorm.DB {
         fmt.Printf("\n----------------\n|%sNOT CONNECTED!%s|\n----------------\n", colorRed, colorReset)
         panic(err)
     }
-   		fmt.Printf("\n----------------\n|%sIS-->CONNECTED%s|\n----------------\n", colorGreen, colorReset)
-
+	printGraffiti()
     return db
+}
+
+func printGraffiti() {
+	graffiti := `
+  
+  ___  ____   ___   ___  _   _ _   _ _____ ____ _____ 
+ |_ _|/ ___| / __| / _ \| \ | | \ | | ____/ ___|_   _|
+  | | \___ \| /   | | | |  \| |  \| |  _|| /     | |  
+  | |  ___) | \__ | |_| | |\  | |\  | |__| \___  | |  
+ |___||____/ \ __| \___/|_| \_|_| \_|_____|____| |_|   
+  ____________________________________________________
+ \_\___\___\___\___\___\___\___\______________________\
+                                                      `
+
+	fmt.Printf("%s%s%s\n", colorGreen, graffiti, colorReset)
 }

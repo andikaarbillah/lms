@@ -37,9 +37,8 @@ func (uc UserController) VerifikasiLogin(ctx *gin.Context) {
 
 	fmt.Println("di controller", err)
 
-	ctx.JSON(200, gin.H{
-		"message": "succesfully",
-		"result":  data,
+	ctx.HTML(200,"home.html",gin.H{
+		"name":data.FirstName,
 	})
 
 }
